@@ -44,7 +44,7 @@ public class ConfirmBox {
         layout.getChildren().addAll(label, buttonRow);
         layout.setAlignment(Pos.CENTER);
 
-        final Scene scene = new Scene(layout, 250, 100);
+        final Scene scene = new Scene(layout, 300, 100);
         window.setScene(scene);
         window.showAndWait(); // !!!
 
