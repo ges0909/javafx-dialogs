@@ -1,13 +1,19 @@
 package com.valantic.sti.tutorial;
 
 import javafx.application.Application;
+import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Dialog;
+import javafx.scene.control.DialogPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 
+import java.net.URL;
 import java.util.Objects;
 
 @Slf4j
@@ -34,11 +40,15 @@ public class Main extends Application {
         final Button button2 = new Button("Custom Confirmation");
         button2.setOnAction(e -> closeWindow());
 
+        final Button button3 = new Button("FXML Dialog");
+        button3.setOnAction(e -> openFxmlDialog());
+
         final VBox layout = new VBox(20);
         layout.setAlignment(Pos.CENTER);
-        layout.getChildren().addAll(button1, button2);
+        layout.getChildren().addAll(button1, button2, button3);
         final Scene scene = new Scene(layout, 250, 150);
-        scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("styles.css")).toExternalForm());
+        final URL styleLocation = getClass().getResource("styles.css");
+        scene.getStylesheets().add(Objects.requireNonNull(styleLocation).toExternalForm());
 
         stage.setScene(scene);
         stage.show();
@@ -49,5 +59,43 @@ public class Main extends Application {
         if (answer) {
             window.close();
         }
+    }
+
+    @SneakyThrows
+    private void openFxmlDialog() {
+        final URL location = getClass().getResource("UserEditor.fxml");
+        final FXMLLoader loader = new FXMLLoader(location);
+        final DialogPane dialogPane = loader.load();
+
+        final UserController controller = loader.getController();
+        final var user = new User("Vinz", "Prinz", "vinz.print@mail.de");
+        controller.setUser(user);
+
+        final Dialog<ButtonType> dialog = new Dialog<>();
+        dialog.setTitle("User editor");
+        dialog.setX(window.getX() * 1.1);
+        dialog.setY(window.getY() * 1.2);
+        dialog.setDialogPane(dialogPane);
+        dialog.showAndWait().ifPresent(buttonType -> {
+            if (buttonType == ButtonType.OK) {
+                log.info("user: {}, {}, {}",
+                        user.getFirstNameProperty().get(),
+                        user.getLastNameProperty().get(),
+                        user.getEmailProperty().get());
+            }
+        });
+
+//        final Optional<ButtonType> clickedButtonType = dialog.showAndWait();
+//        if (clickedButtonType.isPresent() && clickedButtonType.get() == ButtonType.OK) {
+//            log.info("user: {}, {}, {}",
+//                    user.getFirstNameProperty().get(),
+//                    user.getLastNameProperty().get(),
+//                    user.getEmailProperty().get());
+//        }
+
+//        final Stage window = new Stage();
+//        final Scene scene = new Scene(dialogPane);
+//        window.setScene(scene);
+//        window.showAndWait();
     }
 }
