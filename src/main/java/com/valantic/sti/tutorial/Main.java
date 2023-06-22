@@ -1,9 +1,10 @@
 package com.valantic.sti.tutorial;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
-import javafx.scene.layout.StackPane;
+import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.extern.slf4j.Slf4j;
 
@@ -25,12 +26,16 @@ public class Main extends Application {
             closeWindow();
         });
 
-        final Button button = new Button("Click me");
-        button.setOnAction(e -> closeWindow());
+        final Button button1 = new Button("Test Alert");
+        button1.setOnAction(e -> AlertBox.display("Alert", "Wow this alert box is awesome!"));
 
-        final StackPane layout = new StackPane();
-        layout.getChildren().add(button);
-        final Scene scene = new Scene(layout, 600, 250);
+        final Button button2 = new Button("Test Confirmation");
+        button2.setOnAction(e -> closeWindow());
+
+        final VBox layout = new VBox(20);
+        layout.setAlignment(Pos.CENTER);
+        layout.getChildren().addAll(button1, button2);
+        final Scene scene = new Scene(layout, 200, 150);
         stage.setScene(scene);
         stage.show();
     }
