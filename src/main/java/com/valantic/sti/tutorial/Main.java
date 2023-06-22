@@ -4,10 +4,7 @@ import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ButtonType;
-import javafx.scene.control.Dialog;
-import javafx.scene.control.DialogPane;
+import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import lombok.SneakyThrows;
@@ -15,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 
 import java.net.URL;
 import java.util.Objects;
+import java.util.Optional;
 
 @Slf4j
 public class Main extends Application {
@@ -43,10 +41,19 @@ public class Main extends Application {
         final Button button3 = new Button("FXML Dialog");
         button3.setOnAction(e -> openFxmlDialog());
 
+        final Button button4 = new Button("Alert None");
+        button4.setOnAction(e -> {
+            final var alert = new Alert(Alert.AlertType.NONE);
+            alert.setTitle("I'm an alert title");
+            alert.setHeaderText("I'm an alert header");
+            alert.setContentText("I'm the main alert context");
+            final Optional<ButtonType> result = alert.showAndWait();
+        });
+
         final VBox layout = new VBox(20);
         layout.setAlignment(Pos.CENTER);
-        layout.getChildren().addAll(button1, button2, button3);
-        final Scene scene = new Scene(layout, 250, 150);
+        layout.getChildren().addAll(button1, button2, button3, button4);
+        final Scene scene = new Scene(layout, 250, 200);
         final URL styleLocation = getClass().getResource("styles.css");
         scene.getStylesheets().add(Objects.requireNonNull(styleLocation).toExternalForm());
 
