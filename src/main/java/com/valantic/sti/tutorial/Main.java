@@ -52,8 +52,8 @@ public class Main extends Application {
             alert.setTitle("I'm an alert title");
             alert.setHeaderText("I'm an alert header");
             alert.setContentText("I'm the main alert context");
-            final Window window = alert.getDialogPane().getScene().getWindow();
-            window.setOnCloseRequest(windowEvent -> alert.hide());
+            final Window alertWindow = alert.getDialogPane().getScene().getWindow();
+            alertWindow.setOnCloseRequest(windowEvent -> alert.hide());
             final Optional<ButtonType> buttonType = alert.showAndWait();
         });
 
