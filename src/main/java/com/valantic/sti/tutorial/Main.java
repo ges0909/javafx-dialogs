@@ -76,14 +76,14 @@ public class Main extends Application {
         dialog.setX(window.getX() * 1.1);
         dialog.setY(window.getY() * 1.2);
         dialog.setDialogPane(dialogPane);
-        dialog.showAndWait().ifPresent(buttonType -> {
-            if (buttonType == ButtonType.OK) {
-                log.info("user: {}, {}, {}",
-                        user.getFirstNameProperty().get(),
-                        user.getLastNameProperty().get(),
-                        user.getEmailProperty().get());
-            }
-        });
+        dialog.showAndWait()
+                .filter(buttonType -> buttonType == ButtonType.OK)
+                .ifPresent(buttonType ->
+                        log.info("user: {}, {}, {}",
+                                user.getFirstNameProperty().get(),
+                                user.getLastNameProperty().get(),
+                                user.getEmailProperty().get())
+                );
 
 //        final Optional<ButtonType> clickedButtonType = dialog.showAndWait();
 //        if (clickedButtonType.isPresent() && clickedButtonType.get() == ButtonType.OK) {
